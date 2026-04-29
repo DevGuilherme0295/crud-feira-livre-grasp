@@ -42,16 +42,16 @@ A troca de persistência não afeta o restante do sistema.
 ## Evidências de execução
 
 ### Cadastro de CategoriaFeirante
-![Cadastro Categoria](prints/img.png)
+![Cadastro Categoria](src/prints/img.png)
 
 ### Listar Categorias
-![Listar Categorias](prints/img_1.png)
+![Listar Categorias](src/prints/img_1.png)
 
 ### Cadastro de Feirante
-![Cadastro Feirante](prints/img_2.png)
+![Cadastro Feirante](src/prints/img_2.png)
 
 ### JSON de Feirante
-![JSON](prints/img_3.png)
+![JSON](src/prints/img_3.png)
 
 ## Observação
 
