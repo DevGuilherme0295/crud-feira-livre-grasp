@@ -11,16 +11,33 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
-
+/**
+ * Implementação do repositório de Feirante utilizando persistência em arquivo JSON.
+ *
+ * <p>Padrão GRASP: Pure Fabrication — classe criada para tratar persistência,
+ * não pertence ao domínio.</p>
+ *
+ * <p>Padrão GRASP: Indirection — implementa a interface {@link FeiranteRepository},
+ * desacoplando a lógica de negócio da forma de armazenamento.</p>
+ */
 public class JsonFeiranteRepository implements FeiranteRepository {
 
     private final Path arquivo = Path.of("feirantes.json");
     private final List<Feirante> feirantes;
 
+    /**
+     * Inicializa o repositório carregando os dados do arquivo JSON.
+     */
     public JsonFeiranteRepository() {
         this.feirantes = carregar();
     }
 
+    /**
+     * Salva ou atualiza um feirante.
+     *
+     * @param feirante feirante a ser persistido
+     * @return feirante salvo
+     */
     @Override
     public Feirante salvar(Feirante feirante) {
         if (feirante.getId() == null) {
@@ -39,11 +56,22 @@ public class JsonFeiranteRepository implements FeiranteRepository {
         return feirante;
     }
 
+    /**
+     * Retorna todos os feirantes cadastrados.
+     *
+     * @return lista de feirantes
+     */
     @Override
     public List<Feirante> listarTodos() {
         return feirantes;
     }
 
+    /**
+     * Busca um feirante pelo id.
+     *
+     * @param id identificador do feirante
+     * @return feirante encontrado ou vazio
+     */
     @Override
     public Optional<Feirante> buscarPorId(Long id) {
         return feirantes.stream()
@@ -51,12 +79,22 @@ public class JsonFeiranteRepository implements FeiranteRepository {
                 .findFirst();
     }
 
+    /**
+     * Remove um feirante pelo id.
+     *
+     * @param id identificador do feirante
+     */
     @Override
     public void remover(Long id) {
         feirantes.removeIf(f -> f.getId().equals(id));
         salvarArquivo();
     }
 
+    /**
+     * Gera o próximo id disponível.
+     *
+     * @return próximo identificador
+     */
     private Long proximoId() {
         return feirantes.stream()
                 .mapToLong(Feirante::getId)
@@ -64,6 +102,9 @@ public class JsonFeiranteRepository implements FeiranteRepository {
                 .orElse(0L) + 1;
     }
 
+    /**
+     * Salva os dados no arquivo JSON.
+     */
     private void salvarArquivo() {
         StringBuilder json = new StringBuilder();
         json.append("[\n");
@@ -102,6 +143,11 @@ public class JsonFeiranteRepository implements FeiranteRepository {
         }
     }
 
+    /**
+     * Carrega os dados do arquivo JSON.
+     *
+     * @return lista de feirantes
+     */
     private List<Feirante> carregar() {
         List<Feirante> lista = new ArrayList<>();
 
@@ -131,7 +177,6 @@ public class JsonFeiranteRepository implements FeiranteRepository {
                 String descricao = extrair(obj, "descricao");
                 boolean ativo = Boolean.parseBoolean(extrair(obj, "ativo"));
 
-                // categoria
                 Long catId = Long.parseLong(extrair(obj, "categoria.id"));
                 String catNome = extrair(obj, "categoria.nome");
                 String catDesc = extrair(obj, "categoria.descricao");
@@ -148,6 +193,13 @@ public class JsonFeiranteRepository implements FeiranteRepository {
         }
     }
 
+    /**
+     * Extrai valores de campos do JSON manualmente.
+     *
+     * @param obj trecho JSON
+     * @param campo campo a ser extraído
+     * @return valor do campo
+     */
     private String extrair(String obj, String campo) {
         String chave = campo.contains(".")
                 ? campo.split("\\.")[1]
@@ -174,11 +226,23 @@ public class JsonFeiranteRepository implements FeiranteRepository {
         return obj.substring(inicio, fim).trim();
     }
 
+    /**
+     * Escapa caracteres especiais para JSON.
+     *
+     * @param texto texto original
+     * @return texto escapado
+     */
     private String escapar(String texto) {
         if (texto == null) return "";
         return texto.replace("\\", "\\\\").replace("\"", "\\\"");
     }
 
+    /**
+     * Desfaz escape de caracteres.
+     *
+     * @param texto texto escapado
+     * @return texto normal
+     */
     private String desescapar(String texto) {
         return texto.replace("\\\"", "\"").replace("\\\\", "\\");
     }

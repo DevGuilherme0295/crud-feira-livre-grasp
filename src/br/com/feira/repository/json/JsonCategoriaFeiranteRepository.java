@@ -10,17 +10,33 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
-
+/**
+ * Implementação do repositório de CategoriaFeirante utilizando persistência em arquivo JSON.
+ *
+ * <p>Padrão GRASP: Pure Fabrication — esta classe não pertence ao domínio,
+ * sendo criada para tratar a persistência dos dados.</p>
+ *
+ * <p>Padrão GRASP: Indirection — implementa a interface
+ * {@link CategoriaFeiranteRepository}, desacoplando o domínio da forma de armazenamento.</p>
+ */
 public class JsonCategoriaFeiranteRepository implements CategoriaFeiranteRepository {
 
     private final Path arquivo = Path.of("categorias-feirante.json");
     private final List<CategoriaFeirante> categorias;
 
+    /**
+     * Inicializa o repositório carregando os dados do arquivo JSON.
+     */
     public JsonCategoriaFeiranteRepository() {
         this.categorias = carregar();
     }
 
-
+    /**
+     * Salva ou atualiza uma categoria.
+     *
+     * @param categoria categoria a ser persistida
+     * @return categoria salva
+     */
     @Override
     public CategoriaFeirante salvar(CategoriaFeirante categoria) {
         if (categoria.getId() == null) {
@@ -39,13 +55,22 @@ public class JsonCategoriaFeiranteRepository implements CategoriaFeiranteReposit
         return categoria;
     }
 
-
+    /**
+     * Retorna todas as categorias cadastradas.
+     *
+     * @return lista de categorias
+     */
     @Override
     public List<CategoriaFeirante> listarTodos() {
         return categorias;
     }
 
-
+    /**
+     * Busca uma categoria pelo id.
+     *
+     * @param id identificador da categoria
+     * @return categoria encontrada ou vazio
+     */
     @Override
     public Optional<CategoriaFeirante> buscarPorId(Long id) {
         return categorias.stream()
@@ -53,7 +78,12 @@ public class JsonCategoriaFeiranteRepository implements CategoriaFeiranteReposit
                 .findFirst();
     }
 
-
+    /**
+     * Busca uma categoria pelo nome.
+     *
+     * @param nome nome da categoria
+     * @return categoria encontrada ou vazio
+     */
     @Override
     public Optional<CategoriaFeirante> buscarPorNome(String nome) {
         return categorias.stream()
@@ -61,13 +91,22 @@ public class JsonCategoriaFeiranteRepository implements CategoriaFeiranteReposit
                 .findFirst();
     }
 
-
+    /**
+     * Remove uma categoria pelo id.
+     *
+     * @param id identificador da categoria
+     */
     @Override
     public void remover(Long id) {
         categorias.removeIf(c -> c.getId().equals(id));
         salvarArquivo();
     }
 
+    /**
+     * Gera o próximo identificador disponível.
+     *
+     * @return próximo id
+     */
     private Long proximoId() {
         return categorias.stream()
                 .mapToLong(CategoriaFeirante::getId)
@@ -75,6 +114,9 @@ public class JsonCategoriaFeiranteRepository implements CategoriaFeiranteReposit
                 .orElse(0L) + 1;
     }
 
+    /**
+     * Salva os dados no arquivo JSON.
+     */
     private void salvarArquivo() {
         StringBuilder json = new StringBuilder();
         json.append("[\n");
@@ -104,6 +146,11 @@ public class JsonCategoriaFeiranteRepository implements CategoriaFeiranteReposit
         }
     }
 
+    /**
+     * Carrega os dados do arquivo JSON.
+     *
+     * @return lista de categorias
+     */
     private List<CategoriaFeirante> carregar() {
         List<CategoriaFeirante> lista = new ArrayList<>();
 
@@ -141,6 +188,13 @@ public class JsonCategoriaFeiranteRepository implements CategoriaFeiranteReposit
         }
     }
 
+    /**
+     * Extrai um campo do JSON manualmente.
+     *
+     * @param objeto trecho JSON
+     * @param campo campo a ser extraído
+     * @return valor do campo
+     */
     private String extrair(String objeto, String campo) {
         String busca = "\"" + campo + "\":";
         int inicio = objeto.indexOf(busca);
@@ -169,14 +223,25 @@ public class JsonCategoriaFeiranteRepository implements CategoriaFeiranteReposit
         return objeto.substring(inicio, fim).trim();
     }
 
+    /**
+     * Escapa caracteres especiais para JSON.
+     *
+     * @param texto texto original
+     * @return texto escapado
+     */
     private String escapar(String texto) {
         if (texto == null) {
             return "";
         }
-
         return texto.replace("\\", "\\\\").replace("\"", "\\\"");
     }
 
+    /**
+     * Desfaz escape de caracteres.
+     *
+     * @param texto texto escapado
+     * @return texto normal
+     */
     private String desescapar(String texto) {
         return texto.replace("\\\"", "\"").replace("\\\\", "\\");
     }

@@ -5,6 +5,12 @@ import br.com.feira.domain.CategoriaFeirante;
 import java.util.List;
 import java.util.Optional;
 
+/**
+ * Interface que define o contrato de persistência para CategoriaFeirante.
+ *
+ * <p>Padrão GRASP: Indirection — desacopla o domínio da implementação
+ * de persistência.</p>
+ */
 
 public interface CategoriaFeiranteRepository {
 
