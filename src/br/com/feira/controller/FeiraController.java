@@ -8,10 +8,7 @@ import br.com.feira.service.FeiranteService;
 import java.util.List;
 import java.util.Scanner;
 
-/**
- * Controller textual da aplicação.
- * Recebe as opções do menu no console e delega as ações para os serviços.
- */
+
 public class FeiraController {
 
     private final CategoriaFeiranteService categoriaService;
@@ -24,9 +21,7 @@ public class FeiraController {
         this.scanner = new Scanner(System.in);
     }
 
-    /**
-     * Inicia o menu principal da aplicação.
-     */
+
     public void iniciar() {
         int opcao;
 

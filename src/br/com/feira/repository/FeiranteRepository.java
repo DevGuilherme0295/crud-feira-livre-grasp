@@ -5,10 +5,7 @@ import br.com.feira.domain.Feirante;
 import java.util.List;
 import java.util.Optional;
 
-/**
- * Define o contrato de persistência para Feirante.
- * Mantém o domínio desacoplado da infraestrutura.
- */
+
 public interface FeiranteRepository {
 
     Feirante salvar(Feirante feirante);

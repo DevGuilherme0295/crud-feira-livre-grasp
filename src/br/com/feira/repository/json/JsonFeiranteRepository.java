@@ -11,9 +11,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
-/**
- * Repositório JSON manual de Feirante.
- */
+
 public class JsonFeiranteRepository implements FeiranteRepository {
 
     private final Path arquivo = Path.of("feirantes.json");

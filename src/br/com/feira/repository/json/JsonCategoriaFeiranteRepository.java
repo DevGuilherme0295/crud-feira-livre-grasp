@@ -10,10 +10,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
-/**
- * Repositório JSON manual de CategoriaFeirante.
- * Usa apenas Java puro, sem bibliotecas externas.
- */
+
 public class JsonCategoriaFeiranteRepository implements CategoriaFeiranteRepository {
 
     private final Path arquivo = Path.of("categorias-feirante.json");
@@ -23,12 +20,7 @@ public class JsonCategoriaFeiranteRepository implements CategoriaFeiranteReposit
         this.categorias = carregar();
     }
 
-    /**
-     * Salva ou atualiza uma categoria no arquivo JSON.
-     *
-     * @param categoria categoria a ser persistida
-     * @return categoria salva
-     */
+
     @Override
     public CategoriaFeirante salvar(CategoriaFeirante categoria) {
         if (categoria.getId() == null) {
@@ -47,22 +39,13 @@ public class JsonCategoriaFeiranteRepository implements CategoriaFeiranteReposit
         return categoria;
     }
 
-    /**
-     * Lista todas as categorias cadastradas.
-     *
-     * @return lista de categorias
-     */
+
     @Override
     public List<CategoriaFeirante> listarTodos() {
         return categorias;
     }
 
-    /**
-     * Busca categoria por id.
-     *
-     * @param id identificador da categoria
-     * @return categoria encontrada ou vazio
-     */
+
     @Override
     public Optional<CategoriaFeirante> buscarPorId(Long id) {
         return categorias.stream()
@@ -70,12 +53,7 @@ public class JsonCategoriaFeiranteRepository implements CategoriaFeiranteReposit
                 .findFirst();
     }
 
-    /**
-     * Busca categoria por nome.
-     *
-     * @param nome nome da categoria
-     * @return categoria encontrada ou vazio
-     */
+
     @Override
     public Optional<CategoriaFeirante> buscarPorNome(String nome) {
         return categorias.stream()
@@ -83,11 +61,7 @@ public class JsonCategoriaFeiranteRepository implements CategoriaFeiranteReposit
                 .findFirst();
     }
 
-    /**
-     * Remove categoria por id.
-     *
-     * @param id identificador da categoria
-     */
+
     @Override
     public void remover(Long id) {
         categorias.removeIf(c -> c.getId().equals(id));
