@@ -1,0 +1,17 @@
+[
+  {
+    "id": 1,
+    "nome": "Brinquedos",
+    "descricao": "Venda de brinquedos"
+  },
+  {
+    "id": 2,
+    "nome": "Roupas",
+    "descricao": "Venda de roupas"
+  },
+  {
+    "id": 3,
+    "nome": "Commida",
+    "descricao": "Venda de comidas"
+  }
+]
