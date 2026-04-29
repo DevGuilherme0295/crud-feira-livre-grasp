@@ -8,14 +8,16 @@ public class Feirante {
     private String descricao;
     private boolean ativo;
     private CategoriaFeirante categoriaFeirante;
+    private String cpf;
 
     public Feirante() {
     }
 
 
-    public Feirante(Long id, String nome, String descricao, boolean ativo, CategoriaFeirante categoriaFeirante) {
+    public Feirante(Long id, String nome, String cpf, String descricao, boolean ativo, CategoriaFeirante categoriaFeirante) {
         this.id = id;
         setNome(nome);
+        setCpf(cpf);
         this.descricao = descricao;
         this.ativo = ativo;
         setCategoriaFeirante(categoriaFeirante);
@@ -26,6 +28,21 @@ public class Feirante {
         if (nome == null || nome.trim().length() < 3) {
             throw new IllegalArgumentException("O nome do feirante deve ter pelo menos 3 caracteres.");
         }
+    }
+
+    private void validarCpf(String cpf) {
+        if (cpf == null || !cpf.matches("\\d{11}")) {
+            throw new IllegalArgumentException("CPF deve conter exatamente 11 dígitos numéricos.");
+        }
+    }
+
+    public void setCpf(String cpf) {
+        validarCpf(cpf);
+        this.cpf = cpf;
+    }
+
+    public String getCpf() {
+        return cpf;
     }
 
 

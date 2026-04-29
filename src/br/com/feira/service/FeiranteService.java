@@ -20,11 +20,11 @@ public class FeiranteService {
     }
 
 
-    public Feirante criar(String nome, String descricao, boolean ativo, Long categoriaId) {
+    public Feirante criar(String nome, String cpf, String descricao, boolean ativo, Long categoriaId) {
         CategoriaFeirante categoria = categoriaRepository.buscarPorId(categoriaId)
                 .orElseThrow(() -> new IllegalArgumentException("Categoria não encontrada."));
 
-        Feirante feirante = new Feirante(null, nome, descricao, ativo, categoria);
+        Feirante feirante = new Feirante(null, nome, cpf, descricao, ativo, categoria);;
         return feiranteRepository.salvar(feirante);
     }
 

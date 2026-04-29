@@ -87,11 +87,12 @@ public class FeiraController {
         listarCategorias();
 
         String nome = lerTexto("Nome do feirante: ");
+        String cpf = lerTexto("CPF (11 dígitos): ");
         String descricao = lerTexto("Descrição do feirante: ");
         boolean ativo = lerBooleano("Está ativo? (s/n): ");
         Long categoriaId = lerLong("ID da categoria: ");
 
-        Feirante feirante = feiranteService.criar(nome, descricao, ativo, categoriaId);
+        Feirante feirante = feiranteService.criar(nome, cpf, descricao, ativo, categoriaId);
         System.out.println("Feirante cadastrado com sucesso. ID: " + feirante.getId());
     }
 

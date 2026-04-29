@@ -74,6 +74,7 @@ public class JsonFeiranteRepository implements FeiranteRepository {
             json.append("  {\n");
             json.append("    \"id\": ").append(f.getId()).append(",\n");
             json.append("    \"nome\": \"").append(escapar(f.getNome())).append("\",\n");
+            json.append("    \"cpf\": \"").append(f.getCpf()).append("\",\n");
             json.append("    \"descricao\": \"").append(escapar(f.getDescricao())).append("\",\n");
             json.append("    \"ativo\": ").append(f.isAtivo()).append(",\n");
 
@@ -126,6 +127,7 @@ public class JsonFeiranteRepository implements FeiranteRepository {
 
                 Long id = Long.parseLong(extrair(obj, "id"));
                 String nome = extrair(obj, "nome");
+                String cpf = extrair(obj, "cpf");
                 String descricao = extrair(obj, "descricao");
                 boolean ativo = Boolean.parseBoolean(extrair(obj, "ativo"));
 
@@ -136,7 +138,7 @@ public class JsonFeiranteRepository implements FeiranteRepository {
 
                 CategoriaFeirante categoria = new CategoriaFeirante(catId, catNome, catDesc);
 
-                lista.add(new Feirante(id, nome, descricao, ativo, categoria));
+                lista.add(new Feirante(id, nome, cpf, descricao, ativo, categoria));
             }
 
             return lista;
